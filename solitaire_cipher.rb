@@ -21,6 +21,6 @@ end
 
 def convert_to_numbers(input)
   number = []
-  input.each_char {|c| number << c.ord unless c == ' '}
-
+  input.each_char {|c| number << c.ord % 64 unless c == ' '}
+  number
 end
