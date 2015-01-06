@@ -1,6 +1,7 @@
 
 puts "Enter the word or phrase to encode"
 raw = "Test phrase hello e"
+keystream = "DWJXH YRFDG TMSHP UURXJ"
 
 formatted_input = format_input(raw)
 
@@ -21,6 +22,23 @@ end
 
 def convert_to_numbers(input)
   number = []
-  input.each_char {|c| number << c.ord % 64 unless c == ' '}
+  input.each_char {|c| c == ' ' ? number << c : number << c.ord % 64}
   number
+end
+
+def add_num_array(msg, keystream)
+  msg.zip(keystream).map do |x,y|
+    if x == ' '
+      x
+    elsif x + y > 26
+      x + y - 26
+    else
+      x + y
+    end
+  end
+end
+
+def convert_to_letters(input)
+  s = input.map {|n| n == ' ' ? n : ((n + 64).chr) }
+  s.join
 end
