@@ -1,0 +1,10 @@
+#! /bin/bash
+# My second script
+
+irb <<EOF
+require './Deck.rb'
+e = Deck.new 
+e.default_key
+e.get_deck
+
+EOF

@@ -1,0 +1,10 @@
+#! /bin/bash
+# My second script
+
+irb <<EOF
+require './Encrypt.rb'
+e = Encrypt.new('Code in Ruby, live longer!') 
+e.encode
+e.encrypted
+
+EOF

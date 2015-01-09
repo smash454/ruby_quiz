@@ -1,36 +1,23 @@
 class Deck
-  @deck = 0
+  @deck = []
   
   def initialize  
-    @deck = build_deck2
+    @deck = default_deck
   end
   
-  def build_deck1
-    base_deck =  {"Ace of " => 1, "Two of " => 2, 
-                  "Three of " => 3, "Four of " => 4,
-                  "Five of " => 5, "Six of " => 6,
-                  "Seven of " => 7, "Eight of " => 8,
-                  "Nine of " => 9, "Ten of " => 10,
-                  "Jack of " => 11, "Queen of " => 12,
-                  "King of " => 13}
-    clubs = {}
-    base_deck.each {|k, v| clubs[k + "Clubs"] = v}
-    diamonds = {}
-    base_deck.each {|k, v| diamonds[k + "Diamonds"] = v + 13}
-    hearts = {}
-    base_deck.each {|k, v| hearts[k + "Hearts"] = v + 26}
-    spades = {}
-    base_deck.each {|k, v| spades[k + "Spades"] = v + 39}
-    jokers = {"Joker_A" => "A", "Joker_B" => "B"}
-    
-    clubs.merge(diamonds).merge(hearts).merge(spades).merge(jokers)
+  def get_card(idx)
+    @deck[idx]
   end
   
-  def build_deck2
+  def get_deck
+    @deck
+  end
+  
+  def default_deck
     (1..52).to_a << "A" << "B"
   end
   
-  def move_card_down(card, spaces = 1)
+  def move_card_down(card, spaces)
     idx = @deck.index(card) + spaces
     if idx > 53
       idx = idx - 53
@@ -38,7 +25,7 @@ class Deck
     @deck.insert(idx, @deck.delete(card))
   end
   
-  def move_card_up(card, spaces = 1)
+  def move_card_up(card, spaces)
     idx = @deck.index(card) - spaces
     if idx < 0
       idx = idx + 53
@@ -56,13 +43,22 @@ class Deck
     @deck.slice!(btm_idx + 1, @deck.length-1)
   end
   
-  def triple_slice(top, bottom)
+  def triple_cut(top, bottom)
     crds_above = slice_above(top)
     crds_below = slice_below(bottom)
     @deck.push(crds_above).unshift(crds_below).flatten!
   end
   
-  def count_cut(total)
-    @deck.push(@deck.slice!(0, total)).flatten!
+  def count_cut
+    
+    card = @deck.slice!(0, @deck[@deck.length - 1])
+    @deck.insert(@deck.length - 1, card).flatten!
+  end
+  
+  def process
+      move_card_down("A", 1)
+      move_card_down("B", 2)
+      @deck.index("B") < @deck.index("A") ? triple_cut("B", "A") : triple_cut("A", "B")
+      count_cut
   end
 end

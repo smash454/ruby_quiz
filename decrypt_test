@@ -1,0 +1,10 @@
+#! /bin/bash
+# My second script
+
+irb <<EOF
+require './Encrypt.rb'
+e = Encrypt.new('CLEPKHHNIYCFPWHFDFEH') 
+e.decode
+e.decrypted
+
+EOF
